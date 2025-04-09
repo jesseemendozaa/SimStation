@@ -92,6 +92,37 @@ public class World extends Model {
         return population;
     }
 
+    public Agent getNeighbor(Agent agent, int radius){
+
+        int randomIndex = Utilities.rng.nextInt(agents.size());
+        for (int i = 0; i < agents.size(); i++){
+            int index = (randomIndex + i) % agents.size();
+            Agent compare = agents.get(index);
+
+            int xDistance, yDistance;
+            if (compare.getX() > agent.getX()){
+                xDistance = Math.min(compare.getX() - agent.getX(),
+                        agent.getX() + World.size - compare.getX());
+            } else {
+                xDistance = Math.min(agent.getX() - compare.getX(),
+                        compare.getX() + World.size - agent.getX());
+            }
+            if (compare.getY() > agent.getY()){
+                yDistance = Math.min(compare.getY() - agent.getY(),
+                        agent.getY() + World.size - compare.getY());
+            } else {
+                yDistance = Math.min(agent.getY() - compare.getY(),
+                        compare.getY() + World.size - agent.getY());
+            }
+
+            int totalDistance = (int) Math.sqrt((xDistance*xDistance) + (yDistance*yDistance));
+
+            if (totalDistance < radius) {return compare;}
+        }
+
+        return null;
+    }
+
     public void updateStatistics(){
         alive = 0;
         population = 0;
