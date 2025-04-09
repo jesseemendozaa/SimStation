@@ -99,6 +99,10 @@ public class World extends Model {
             int index = (randomIndex + i) % agents.size();
             Agent compare = agents.get(index);
 
+            if ((compare == agent)){
+                continue;
+            }
+
             int xDistance, yDistance;
             if (compare.getX() > agent.getX()){
                 xDistance = Math.min(compare.getX() - agent.getX(),

@@ -20,7 +20,7 @@ public class WorldView extends View {
         World c = (World) model;
         ArrayList<Agent> agents = c.getAgents();
         for (Agent a : agents){
-            if(!a.getName().equals("Observer")){
+            if(!a.getName().equals("Observer") && a.isAlive()){
                 drawAgent(a, g);
             }
         }
