@@ -52,7 +52,7 @@ public class Plague extends Agent
 
         if (previousStatus != isInfected)
         {
-            ((World) world).updateStatistics();
+            world.updateStatistics();
         }
     }
 }

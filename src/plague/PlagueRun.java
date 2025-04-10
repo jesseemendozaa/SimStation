@@ -26,6 +26,33 @@ public class PlagueRun extends World
         fatalRecovery = view.getFatalityTime();
     }
 
+    public String[] getStatus(){
+
+        String cl = "Clock: " + getClock();
+        String al = "Alive: " + getAlive();
+        String infected = "% Infected: " + getInfected();
+
+        return new String[] {cl, al, infected};
+    }
+
+    public double getInfected(){
+        double numInfected = 0;
+        double numAlive = 0;
+        for (Agent a : getAgents()){
+            if (a.getName().equals("Observer")){
+                continue;
+            }
+            Plague p = (Plague)a;
+            if (p.isAlive()){
+                numAlive++;
+            }
+            if (p.isInfected()){
+                numInfected++;
+            }
+        }
+        return (numInfected/numAlive)*100;
+    }
+
     @Override
     public void populate()
     {
