@@ -60,7 +60,7 @@ public class PlagueRun extends World
 
         for (int i = 0; i < populationSize; i++)
         {
-            Plague p = new Plague();
+            Plague p = new Plague(fatalRecovery);
 
             if (i < numInfected)
             {

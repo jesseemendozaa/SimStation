@@ -1,17 +1,20 @@
 package plague;
 
 import simstation.*;
-import java.util.*;
 import mvc.*;
 
 public class Plague extends Agent
 {
     private boolean isInfected;
+    private int timeInfected;
+    private int fatalRecover;
 
-    public Plague()
+    public Plague(int fatalRecover)
     {
         super("Plague Agent");
         isInfected = false;
+        timeInfected = 0;
+        this.fatalRecover = fatalRecover;
     }
 
     public boolean isInfected()
@@ -22,6 +25,7 @@ public class Plague extends Agent
     public void infect()
     {
         isInfected = true;
+        timeInfected = 0;
     }
 
     @Override
@@ -43,6 +47,16 @@ public class Plague extends Agent
                     this.infect();
                 }
             }
+        }
+
+        if (isInfected)
+        {
+            timeInfected++;
+        }
+
+        if (timeInfected >= fatalRecover && isInfected)
+        {
+            isInfected = false;
         }
 
         int dx = Utilities.rng.nextInt(11) - 5;
