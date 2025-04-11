@@ -1,7 +1,7 @@
 package simstation;
 
-public class ObserverAgent extends Agent{
-
+public class ObserverAgent extends Agent
+{
     public ObserverAgent(String name) {
         super(name);
     }
@@ -9,5 +9,4 @@ public class ObserverAgent extends Agent{
     public void update(){
         world.updateStatistics();
     }
-
 }

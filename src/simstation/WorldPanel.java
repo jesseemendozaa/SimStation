@@ -5,11 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-public class WorldPanel extends AppPanel {
-
+public class WorldPanel extends AppPanel
+{
     public JPanel threadPanel = new JPanel();
 
-    public WorldPanel(WorldFactory factory) {
+    public WorldPanel(WorldFactory factory)
+    {
         super(factory);
 
         threadPanel.setLayout(new GridLayout(1, 5));
@@ -59,16 +60,16 @@ public class WorldPanel extends AppPanel {
         controlPanel.add(p,  BorderLayout.NORTH);
     }
 
-    public void setModel(Model m) {
+    public void setModel(Model m)
+    {
         super.setModel(m);
         World w = (World)m;
         Iterator<Agent> it = w.getAgents().iterator();
-        while (it.hasNext()) {
+        while (it.hasNext())
+        {
             Thread t = new Thread(it.next());
             t.start();
         }
     }
-
-
 }
 
