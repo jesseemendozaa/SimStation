@@ -8,7 +8,7 @@ public abstract class Agent implements Runnable, Serializable
 {
     protected String name;
     protected transient Thread myThread;
-    private boolean paused, stopped;
+    private boolean paused, stopped, alive;
     protected World world;
     private int xc;
     private int yc;
@@ -59,8 +59,10 @@ public abstract class Agent implements Runnable, Serializable
     public synchronized void stop() { stopped = true; }
     public synchronized boolean isStopped() { return stopped; }
     public synchronized void pause() { paused = true; }
-    public synchronized boolean isPaused() { return paused; }
-    public synchronized void resume() { paused = false; notify(); }
+    public synchronized boolean isPaused() { return paused;  }
+    public synchronized void resume() { notify(); }
+    public synchronized boolean isAlive(){return alive;}
+    public synchronized void kill(){alive = false;}
 
     // wait for me to die:
     public synchronized void join()

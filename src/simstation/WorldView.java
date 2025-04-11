@@ -21,11 +21,9 @@ public class WorldView extends View
         Color oldColor = g.getColor();
         World c = (World) model;
         ArrayList<Agent> agents = c.getAgents();
-
-        for (Agent a : agents)
-        {
-            if(!a.getName().equals("Observer"))
-            {
+        
+        for (Agent a : agents){
+            if(!a.getName().equals("Observer") && a.isAlive()){
                 drawAgent(a, g);
             }
         }
