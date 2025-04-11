@@ -52,10 +52,15 @@ public class PrisonerSimulation extends World
     @Override
     public String[] getStatus()
     {
+        // int cheatTotal = 0;
         int cheatAverage = 0;
+        // int cooperateTotal = 0;
         int cooperateAverage = 0;
+        // int randomlyCooperateTotal = 0;
         int randomlyCooperateAverage = 0;
+        // int tit4tatTotal = 0;
         int tit4tatAverage = 0;
+
 
         // Loop through the prisoners and calculate the average of each strategy:
         for (Agent prisoner : agents) {
@@ -72,16 +77,20 @@ public class PrisonerSimulation extends World
                     tit4tatAverage = tit4tatAverage + currentPrisoner.getFitness();
                 }
             }
-
-            // Since each strategy has exactly 10 prisoners (they never change their strategy), we can just divide by 10.
-            cheatAverage = cheatAverage / 10;
-            cooperateAverage = cooperateAverage / 10;
-            randomlyCooperateAverage = randomlyCooperateAverage / 10;
-            tit4tatAverage = tit4tatAverage / 10;
         }
+
+        // Since each strategy has exactly 10 prisoners (they never change their strategy), we can just divide by 10.
+        cheatAverage = cheatAverage / 10;
+        cooperateAverage = cooperateAverage / 10;
+        randomlyCooperateAverage = randomlyCooperateAverage / 10;
+        tit4tatAverage = tit4tatAverage / 10;
 
         return new String[]
                 {
+                        //"Total Cheat strategy fitness: " + cheatTotal,
+                        //"Total Cooperate strategy fitness: " + cooperateTotal,
+                        //"Total Randomly Cooperate strategy fitness: " + randomlyCooperateTotal,
+                        //"Total Tit4Tat strategy fitness: " + tit4tatTotal,
                         "Average Cheat strategy fitness: " + cheatAverage,
                         "Average Cooperate strategy fitness: " + cooperateAverage,
                         "Average Randomly Cooperate strategy fitness: " + randomlyCooperateAverage,
