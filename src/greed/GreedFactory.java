@@ -2,12 +2,18 @@ package greed;
 
 import simstation.WorldFactory;
 import mvc.*;
+import simstation.WorldView;
+
 import javax.swing.*;
 
 public class GreedFactory extends WorldFactory {
 
     public Model makeModel() {
         return new Meadow();
+    }
+
+    public View makeView(Model m) {
+        return new GreedView((Meadow) m);
     }
 
     public String getTitle() {

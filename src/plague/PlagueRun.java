@@ -43,9 +43,7 @@ public class PlagueRun extends World
                 continue;
             }
             Plague p = (Plague)a;
-            if (p.isAlive()){
-                numAlive++;
-            }
+            numAlive++;
             if (p.isInfected()){
                 numInfected++;
             }

@@ -2,19 +2,22 @@ package greed;
 
 import mvc.AppPanel;
 import simstation.*;
+import java.text.DecimalFormat;
 
 public class Meadow extends World{
 
-    int waitPenalty = 5;
+    static final DecimalFormat df = new DecimalFormat("0.00");
+    static int waitPenalty = 5;
     int greed = 50, grow = 1, move = 10;
     static int numCows = 50;
-    int dim = World.size / Patch.patchSize;
-    Patch[][] field = new Patch[dim][dim];
+    static int dimX = (World.size / Patch.patchSize)+11;
+    static int dimY = (World.size / Patch.patchSize)+5;
+    Patch[][] field = new Patch[dimY][dimX];
 
     public Meadow(){
         super();
-        for (int i = 0; i < dim; i++) {
-            for (int j = 0; j < dim; j++) {
+        for (int i = 0; i < dimY; i++) {
+            for (int j = 0; j < dimX; j++) {
                 field[i][j] = new Patch("Patch", j, i);
             }
         }
@@ -25,8 +28,10 @@ public class Meadow extends World{
             if (a.getName().equals("Observer")){
                 continue;
             }
-            Cow c = (Cow) a;
-            c.greediness = greed;
+            if (a.getName().equals("Cow")){
+                Cow c = (Cow) a;
+                c.greediness = greed;
+            }
         }
         setGreed(greed);
         changed();
@@ -41,6 +46,7 @@ public class Meadow extends World{
         setGrow(grow);
         changed();
     }
+
 
     public void setGreed(int greed){
         this.greed = greed;
@@ -71,8 +77,10 @@ public class Meadow extends World{
             if (a.getName().equals("Observer")){
                 continue;
             }
-            Cow c = (Cow) a;
-            c.moveEnergy = moveEnergy;
+            if (a.getName().equals("Cow")){
+                Cow c = (Cow) a;
+                c.moveEnergy = moveEnergy;
+            }
         }
         setMove(moveEnergy);
         changed();
@@ -80,8 +88,65 @@ public class Meadow extends World{
 
     public void populate() {
         for(int i = 0; i < numCows; i++) {
-            this.addAgent(new Cow("Cow", 100, 50, 1));
+            this.addAgent(new Cow("Cow", 100, 50, 1, this));
         }
+        for(Patch[] pRow : field){
+            for (Patch p : pRow){
+                this.addAgent(p);
+            }
+        }
+    }
+
+    public int getAlive(){
+        int alive = 0;
+        for (Agent a : agents){
+            if (a.getName().equals("Cow")){
+                Cow c = (Cow)a;
+                if (c.alive){alive++;}
+            }
+
+        }
+        return alive;
+    }
+
+    public double getAverageCowEnergy(){
+        double sum = 0;
+        double num = 0;
+        for (Agent a : agents){
+            if (a.getName().equals("Cow")){
+                Cow c = (Cow)a;
+                if (c.alive){
+                    sum+= c.getEnergy();
+                    num++;
+                }
+            }
+
+        }
+        return sum/num;
+    }
+
+    public double getAveragePatchEnergy(){
+        double sum = 0;
+        double num = 0;
+        for (Agent a : agents){
+            if (a.getName().equals("Patch")){
+                Patch p = (Patch)a;
+                sum+= p.getEnergy();
+                num++;
+            }
+
+        }
+        return sum/num;
+    }
+
+
+    public String[] getStatus(){
+        String cl = "Clock: " + getClock();
+        String al = "Alive: " + getAlive();
+        String ce = "Average Cow Energy: " + df.format(getAverageCowEnergy());
+        String pe = "Average Patch Energy: " + df.format(getAveragePatchEnergy());
+
+        return new String[]{cl, al, ce, pe};
     }
 
     public static void main(String[] args) {
