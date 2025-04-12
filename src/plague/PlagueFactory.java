@@ -2,6 +2,7 @@ package plague;
 
 import mvc.*;
 import simstation.*;
+import javax.swing.*;
 
 public class PlagueFactory extends WorldFactory
 {
@@ -39,26 +40,50 @@ public class PlagueFactory extends WorldFactory
     @Override
     public String[] getEditCommands()
     {
-        return new String[]{"Start", "Pause", "Resume", "Stop", "Stats"};
+        return new String[]{"Start", "Pause", "Resume", "Stop", "Stats", "Initial % Infected", "Infection Probability", "Initial Population Size", "Fatality/Recovery Time"};
     }
 
     @Override
     public Command makeEditCommand(Model model, String type, Object source)
     {
-        switch (type)
+        Command cmmd = super.makeEditCommand(model, type, source);
+
+        if (cmmd == null)
         {
-            case "Start":
-                return new StartCommand(model, type, source);
-            case "Pause":
-                return new PauseCommand(model, type, source);
-            case "Resume":
-                return new ResumeCommand(model, type, source);
-            case "Stop":
-                return new StopCommand(model, type, source);
-            case "Stats":
-                return new StatsCommand(model, type, source);
-            default:
-                return null;
+            if (type.equals("Initial % Infected"))
+            {
+                cmmd = new SetInitialInfectedCommand(model, type, source);
+                if (source instanceof JSlider)
+                {
+                    ((SetInitialInfectedCommand) cmmd).value = ((JSlider) source).getValue();
+                }
+            }
+            else if (type.equals("Infection Probability"))
+            {
+                cmmd = new SetInfectionProbability(model, type, source);
+                if (source instanceof JSlider)
+                {
+                    ((SetInfectionProbability) cmmd).value = ((JSlider) source).getValue();
+                }
+            }
+            else if (type.equals("Initial Population Size"))
+            {
+                cmmd = new SetInitialPopulationSize(model, type, source);
+                if (source instanceof JSlider)
+                {
+                    ((SetInitialPopulationSize) cmmd).value = ((JSlider) source).getValue();
+                }
+            }
+            else if (type.equals("Fatality/Recovery Time"))
+            {
+                cmmd = new SetFatalRecovery(model, type, source);
+                if (source instanceof JSlider)
+                {
+                    ((SetFatalRecovery) cmmd).value = ((JSlider) source).getValue();
+                }
+            }
         }
+
+        return cmmd;
     }
 }
