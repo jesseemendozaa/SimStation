@@ -115,32 +115,16 @@ public class PlagueView extends WorldView
         model.fatalRecovery = fatalityRecoverySlider.getValue();
     }
 
-    public int getInitialInfected()
-    {
-        return initialInfectedSlider.getValue();
-    }
-
-    public int getInfectionProbability()
-    {
-        return infectionProbabilitySlider.getValue();
-    }
-
-    public int getPopulationSize()
-    {
-        return populationSizeSlider.getValue();
-    }
-
-    public int getFatalityTime()
-    {
-        return fatalityRecoverySlider.getValue();
-    }
-
     @Override
     public void drawAgent(Agent a, Graphics g)
     {
         if (a instanceof Plague)
         {
-            if (((Plague) a).isInfected())
+            if (((Plague) a).isDead)
+            {
+                g.setColor(Color.BLACK);
+            }
+            else if (((Plague) a).isInfected())
             {
                 g.setColor(Color.RED);
             }
