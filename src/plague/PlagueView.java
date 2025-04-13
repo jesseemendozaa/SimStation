@@ -8,7 +8,6 @@ import java.awt.*;
 
 public class PlagueView extends WorldView
 {
-
     private JSlider initialInfectedSlider;
     private JSlider infectionProbabilitySlider;
     private JSlider populationSizeSlider;
@@ -109,7 +108,11 @@ public class PlagueView extends WorldView
     private void updatePlagueRun()
     {
         PlagueRun model = (PlagueRun) this.getModel();
-        model.UpdatedSimValues(this);
+
+        model.setInitialInfectedPercent(initialInfectedSlider.getValue());
+        model.VIRULENCE = infectionProbabilitySlider.getValue();
+        model.populationSize = populationSizeSlider.getValue();
+        model.fatalRecovery = fatalityRecoverySlider.getValue();
     }
 
     public int getInitialInfected()
@@ -151,5 +154,17 @@ public class PlagueView extends WorldView
         {
             super.drawAgent(a, g);
         }
+    }
+
+    public void update()
+    {
+        PlagueRun model = (PlagueRun) this.getModel();
+        initialInfectedSlider.setValue(model.getInitialInfectedPercent());
+        infectionProbabilitySlider.setValue(model.VIRULENCE);
+        populationSizeSlider.setValue(model.populationSize);
+        fatalityRecoverySlider.setValue(model.fatalRecovery);
+
+        revalidate();
+        repaint();
     }
 }
