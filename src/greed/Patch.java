@@ -6,7 +6,7 @@ public class Patch extends Agent{
 
     int energy;
     int growBackRate = 1;
-    static int patchSize = 10;
+    static int patchSize = 13;
     int x,y;
 
     public Patch(String name, int x, int y){
