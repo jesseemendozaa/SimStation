@@ -48,7 +48,7 @@ public class Cow extends MobileAgent {
                 location.eatMe(this, greediness);
             } else {
                 if (this.energy > moveEnergy){
-                    int steps = Utilities.rng.nextInt(2) + 1;
+                    int steps = Utilities.rng.nextInt(1) + 1;
                     move(steps);
                     energy -= moveEnergy;
                 }

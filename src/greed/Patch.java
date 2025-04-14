@@ -25,8 +25,16 @@ public class Patch extends Agent{
     }
 
     public synchronized void eatMe(Cow cow, int amt){
+        while (amt > getEnergy()){
+            try {
+                wait();
+            } catch(Exception e){
+                Utilities.error(e);
+            }
+        }
         updateEnergy(-amt);
         cow.updateEnergy(amt);
+        notify();
     }
 
     public synchronized void update(){
