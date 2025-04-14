@@ -43,7 +43,7 @@ public class Plague extends Agent
         {
             Plague p = (Plague) neighbor;
 
-            if (p.isInfected() && !this.isInfected())
+            if ((p.isInfected() && !this.isInfected()) && !p.isDead)
             {
                 int n = Utilities.rng.nextInt(100);
                 if (n < PlagueRun.VIRULENCE)
@@ -62,8 +62,9 @@ public class Plague extends Agent
         {
             if (!isDead)
             {
+                PlagueRun pr = (PlagueRun) world;
                 int randomOutcome = Utilities.rng.nextInt(2);
-                if (randomOutcome == 0)
+                if (randomOutcome == 0 || !pr.getFatal())
                 {
                     isInfected = false;
                     isDead = false;

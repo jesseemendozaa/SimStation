@@ -12,6 +12,7 @@ public class PlagueRun extends World
 
     public int populationSize = 100;
     private int initialInfectedPercent = 10;
+    private boolean fatal = true;
 
     public PlagueRun()
     {
@@ -32,15 +33,25 @@ public class PlagueRun extends World
         this.VIRULENCE = value;
     }
 
+    public int getInfectionProbability(){ return VIRULENCE;}
+
     public void setInitialPopulationSize(int value)
     {
         this.populationSize = value;
     }
 
+    public int getInitialPopulationSize(){ return populationSize;}
+
     public void setFatalRecovery(int value)
     {
         this.fatalRecovery = value;
     }
+
+    public int getFatalRecovery(){ return fatalRecovery;}
+
+    public Boolean getFatal(){return fatal;}
+
+    public void setFatal(boolean value){this.fatal = value;}
 
     public String[] getStatus()
     {
@@ -49,6 +60,22 @@ public class PlagueRun extends World
         String infected = "% Infected: " + getInfected();
 
         return new String[] {cl, al, infected};
+    }
+
+    public int getAlive(){
+        int numAlive = 0;
+        for (Agent a : getAgents())
+        {
+            if (a.getName().equals("Observer"))
+            {
+                continue;
+            }
+            Plague p = (Plague) a;
+            if (!p.isDead){
+                numAlive++;
+            }
+        }
+        return numAlive;
     }
 
     public double getInfected()
@@ -62,10 +89,12 @@ public class PlagueRun extends World
                 continue;
             }
             Plague p = (Plague) a;
-            numAlive++;
-            if (p.isInfected())
-            {
-                numInfected++;
+            if (!p.isDead){
+                numAlive++;
+                if (p.isInfected())
+                {
+                    numInfected++;
+                }
             }
         }
         return (numInfected / numAlive) * 100;
@@ -90,8 +119,8 @@ public class PlagueRun extends World
 
     public static void main(String[] args)
     {
-        WorldFactory factory = new PlagueFactory();
-        AppPanel panel = new WorldPanel(factory);
+        PlagueFactory factory = new PlagueFactory();
+        PlaguePanel panel = new PlaguePanel(factory);
         panel.display();
     }
 }

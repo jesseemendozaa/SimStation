@@ -40,7 +40,7 @@ public class PlagueFactory extends WorldFactory
     @Override
     public String[] getEditCommands()
     {
-        return new String[]{"Start", "Pause", "Resume", "Stop", "Stats", "Initial % Infected", "Infection Probability", "Initial Population Size", "Fatality/Recovery Time"};
+        return new String[]{"Start", "Pause", "Resume", "Stop", "Stats", "Initial % Infected", "Infection Probability", "Initial Population Size", "Fatality/Recovery Time", "Not Fatal"};
     }
 
     @Override
@@ -81,6 +81,9 @@ public class PlagueFactory extends WorldFactory
                 {
                     ((SetFatalRecovery) cmmd).value = ((JSlider) source).getValue();
                 }
+            }
+            else if (type.equals("Not Fatal")){
+                cmmd = new NotFatalCommand(model, type, source);
             }
         }
 

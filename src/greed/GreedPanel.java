@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class GreedPanel extends WorldPanel implements ChangeListener{
 
-    JPanel sliderPanel = new JPanel();
-    JSlider greedSlider, growSlider, moveSlider;
+    private final JPanel sliderPanel = new JPanel();
+    private final JSlider greedSlider, growSlider, moveSlider;
 
     public GreedPanel(GreedFactory factory){
         super(factory);
