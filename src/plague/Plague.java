@@ -5,7 +5,7 @@ import mvc.*;
 
 import java.awt.*;
 
-public class Plague extends Agent
+public class Plague extends MobileAgent
 {
     private boolean isInfected;
     private int timeInfected;
@@ -35,8 +35,6 @@ public class Plague extends Agent
     @Override
     public void update()
     {
-        // boolean previousStatus = isInfected;
-
         Agent neighbor = world.getNeighbor(this, 10);
 
         if (neighbor instanceof Plague)
@@ -63,8 +61,8 @@ public class Plague extends Agent
             if (!isDead)
             {
                 PlagueRun pr = (PlagueRun) world;
-                int randomOutcome = Utilities.rng.nextInt(2);
-                if (randomOutcome == 0 || !pr.getFatal())
+                int r = Utilities.rng.nextInt(2);
+                if (r == 0 || !pr.getFatal())
                 {
                     isInfected = false;
                     isDead = false;
@@ -78,16 +76,8 @@ public class Plague extends Agent
 
         if (!isDead)
         {
-            int dx = Utilities.rng.nextInt(11) - 5;
-            int dy = Utilities.rng.nextInt(11) - 5;
-            setX((getX() + dx + World.size) % World.size);
-            setY((getY() + dy + World.size) % World.size);
+            move(1);
         }
-
-//        if (previousStatus != isInfected)
-//        {
-//            world.updateStatistics();
-//        }
     }
 
     private void setColor(Color color)
