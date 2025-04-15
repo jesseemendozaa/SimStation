@@ -3,7 +3,6 @@ package greed;
 import mvc.Utilities;
 import simstation.Heading;
 import simstation.MobileAgent;
-import simstation.World;
 
 public class Cow extends MobileAgent {
 
@@ -30,36 +29,21 @@ public class Cow extends MobileAgent {
         updateLocation();
     }
 
-    public synchronized int getEnergy(){
+    public int getEnergy(){
         return energy;
     }
 
-    public synchronized void updateEnergy(int amt){
+    public void updateEnergy(int amt){
         energy += amt;
         if (energy > 100) energy = 100;
     }
 
+    public void setHeading(Heading heading){
+        this.heading = heading;
+    }
 
     public void update() {
-        heading = Heading.random();
-        energy -= Meadow.waitPenalty;
-        if (this.energy < 100) {
-            if (location.getEnergy() >= greediness) {
-                location.eatMe(this, greediness);
-            } else {
-                if (this.energy > moveEnergy){
-                    int steps = Utilities.rng.nextInt(1) + 1;
-                    move(steps);
-                    energy -= moveEnergy;
-                }
-            }
-        }
-        if (this.energy <= 0){
-            this.alive = false;
-            stop();
-        }
-
-        updateLocation();
+        location.eatMe(this,greediness);
     }
 
     public void updateLocation(){
