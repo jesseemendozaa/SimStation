@@ -10,6 +10,8 @@ public class Bird extends MobileAgent
     public Bird()
     {
         super("Bird");
+        heading = Heading.random();
+        speed = Utilities.rng.nextInt(20) + 1;
     }
 
     public int getSpeed()
@@ -30,8 +32,6 @@ public class Bird extends MobileAgent
     public void update()
     {
         // Move first:
-        heading = Heading.random();
-        int speed = Utilities.rng.nextInt(20) + 1;
         move(speed);
 
         Agent nearbyBird = world.getNeighbor(this, 10);

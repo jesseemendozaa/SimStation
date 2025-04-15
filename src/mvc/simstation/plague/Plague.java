@@ -35,7 +35,7 @@ public class Plague extends Agent
     @Override
     public void update()
     {
-        boolean previousStatus = isInfected;
+        // boolean previousStatus = isInfected;
 
         Agent neighbor = world.getNeighbor(this, 10);
 
@@ -58,7 +58,7 @@ public class Plague extends Agent
             timeInfected++;
         }
 
-        if (timeInfected >= fatalRecover && isInfected)
+        if ((timeInfected >= fatalRecover) && isInfected)
         {
             if (!isDead)
             {
@@ -84,10 +84,10 @@ public class Plague extends Agent
             setY((getY() + dy + World.size) % World.size);
         }
 
-        if (previousStatus != isInfected)
-        {
-            world.updateStatistics();
-        }
+//        if (previousStatus != isInfected)
+//        {
+//            world.updateStatistics();
+//        }
     }
 
     private void setColor(Color color)

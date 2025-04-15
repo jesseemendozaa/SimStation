@@ -133,8 +133,8 @@ public class World extends Model
                 continue;
             }
 
-            // Only return MobileAgents:
-            if (!(compare instanceof MobileAgent))
+            // Only return MobileAgents & Agents:
+            if (compare instanceof ObserverAgent)
             {
                 continue;
             }
