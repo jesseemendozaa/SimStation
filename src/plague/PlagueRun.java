@@ -6,28 +6,55 @@ import mvc.*;
 public class PlagueRun extends World
 {
 
-    public static int VIRULENCE = 50;   // % chance of infection (updated by slider)
+    public static int VIRULENCE = 50;   // % chance of infection
     public static int RESISTANCE = 2;   // % chance of resisting infection
     public static int fatalRecovery = 200;
 
-    private int populationSize = 100;
+    public int populationSize = 100;
     private int initialInfectedPercent = 10;
+    private boolean fatal = true;
 
     public PlagueRun()
     {
         super();
     }
 
-    public void UpdatedSimValues(PlagueView view)
+    public void setInitialInfectedPercent(int value)
     {
-        this.populationSize = view.getPopulationSize();
-        this.initialInfectedPercent = view.getInitialInfected();
-        VIRULENCE = view.getInfectionProbability();
-        fatalRecovery = view.getFatalityTime();
+        this.initialInfectedPercent = value;
     }
 
-    public String[] getStatus(){
+    public int getInitialInfectedPercent() {
+        return initialInfectedPercent;
+    }
 
+    public void setInfectionProbability(int value)
+    {
+        this.VIRULENCE = value;
+    }
+
+    public int getInfectionProbability(){ return VIRULENCE;}
+
+    public void setInitialPopulationSize(int value)
+    {
+        this.populationSize = value;
+    }
+
+    public int getInitialPopulationSize(){ return populationSize;}
+
+    public void setFatalRecovery(int value)
+    {
+        this.fatalRecovery = value;
+    }
+
+    public int getFatalRecovery(){ return fatalRecovery;}
+
+    public Boolean getFatal(){return fatal;}
+
+    public void setFatal(boolean value){this.fatal = value;}
+
+    public String[] getStatus()
+    {
         String cl = "Clock: " + getClock();
         String al = "Alive: " + getAlive();
         String infected = "% Infected: " + getInfected();
@@ -35,22 +62,42 @@ public class PlagueRun extends World
         return new String[] {cl, al, infected};
     }
 
-    public double getInfected(){
-        double numInfected = 0;
-        double numAlive = 0;
-        for (Agent a : getAgents()){
-            if (a.getName().equals("Observer")){
+    public int getAlive(){
+        int numAlive = 0;
+        for (Agent a : getAgents())
+        {
+            if (a.getName().equals("Observer"))
+            {
                 continue;
             }
-            Plague p = (Plague)a;
-            if (p.isAlive()){
+            Plague p = (Plague) a;
+            if (!p.isDead){
                 numAlive++;
             }
-            if (p.isInfected()){
-                numInfected++;
+        }
+        return numAlive;
+    }
+
+    public double getInfected()
+    {
+        double numInfected = 0;
+        double numAlive = 0;
+        for (Agent a : getAgents())
+        {
+            if (a.getName().equals("Observer"))
+            {
+                continue;
+            }
+            Plague p = (Plague) a;
+            if (!p.isDead){
+                numAlive++;
+                if (p.isInfected())
+                {
+                    numInfected++;
+                }
             }
         }
-        return (numInfected/numAlive)*100;
+        return (numInfected / numAlive) * 100;
     }
 
     @Override
@@ -72,8 +119,8 @@ public class PlagueRun extends World
 
     public static void main(String[] args)
     {
-        WorldFactory factory = new PlagueFactory();
-        AppPanel panel = new WorldPanel(factory);
+        PlagueFactory factory = new PlagueFactory();
+        PlaguePanel panel = new PlaguePanel(factory);
         panel.display();
     }
 }

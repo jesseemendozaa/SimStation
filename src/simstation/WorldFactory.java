@@ -42,7 +42,9 @@ public class WorldFactory implements AppFactory
     public String getTitle() { return "Simstation"; }
 
     public String[] getHelp() {
-        return new String[] {"Press Start to Begin"};
+        return new String[] {"Press Start to Begin",
+        "Once the simulation is stopped, it cannot be started/resumed again",
+        "The simulation cannot be saved after it has been started"};
     }
 
     public String about()

@@ -3,11 +3,14 @@ package plague;
 import simstation.*;
 import mvc.*;
 
+import java.awt.*;
+
 public class Plague extends Agent
 {
     private boolean isInfected;
     private int timeInfected;
     private int fatalRecover;
+    public boolean isDead;
 
     public Plague(int fatalRecover)
     {
@@ -15,6 +18,7 @@ public class Plague extends Agent
         isInfected = false;
         timeInfected = 0;
         this.fatalRecover = fatalRecover;
+        isDead = false;
     }
 
     public boolean isInfected()
@@ -39,7 +43,7 @@ public class Plague extends Agent
         {
             Plague p = (Plague) neighbor;
 
-            if (p.isInfected() && !this.isInfected())
+            if ((p.isInfected() && !this.isInfected()) && !p.isDead)
             {
                 int n = Utilities.rng.nextInt(100);
                 if (n < PlagueRun.VIRULENCE)
@@ -56,17 +60,38 @@ public class Plague extends Agent
 
         if (timeInfected >= fatalRecover && isInfected)
         {
-            isInfected = false;
+            if (!isDead)
+            {
+                PlagueRun pr = (PlagueRun) world;
+                int randomOutcome = Utilities.rng.nextInt(2);
+                if (randomOutcome == 0 || !pr.getFatal())
+                {
+                    isInfected = false;
+                    isDead = false;
+                }
+                else
+                {
+                    isDead = true;
+                }
+            }
         }
 
-        int dx = Utilities.rng.nextInt(11) - 5;
-        int dy = Utilities.rng.nextInt(11) - 5;
-        setX((getX() + dx + World.size) % World.size);
-        setY((getY() + dy + World.size) % World.size);
+        if (!isDead)
+        {
+            int dx = Utilities.rng.nextInt(11) - 5;
+            int dy = Utilities.rng.nextInt(11) - 5;
+            setX((getX() + dx + World.size) % World.size);
+            setY((getY() + dy + World.size) % World.size);
+        }
 
         if (previousStatus != isInfected)
         {
             world.updateStatistics();
         }
+    }
+
+    private void setColor(Color color)
+    {
+        this.setColor(color);
     }
 }
